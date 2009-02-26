@@ -718,6 +718,33 @@ namespace Funq.Tests
 			Assert.IsFalse(d.IsDisposed);
 		}
 
+		[TestMethod]
+		[Ignore]
+		public void LazyResolverFuncProvidedForRegisteredServices()
+		{
+			var container = new Container();
+			container.Register<IFoo>(c => new Foo()).ReusedWithin(ReuseScope.Container);
+
+			var func = container.Resolve<Func<IFoo>>();
+
+			Assert.IsNotNull(func);
+		}
+
+		[TestMethod]
+		[Ignore]
+		public void LazyResolverFuncHonorsReuseScope()
+		{
+			var container = new Container();
+			container.Register<IFoo>(c => new Foo()).ReusedWithin(ReuseScope.Container);
+
+			var func = container.Resolve<Func<IFoo>>();
+
+			var f1 = func();
+			var f2 = func();
+
+			Assert.AreSame(f1, f2);
+		}
+
 		public class Presenter
 		{
 			public Presenter(View view)
