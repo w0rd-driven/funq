@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyProduct("Funq")]
 [assembly: AssemblyTrademark("")]
 
-[assembly: AssemblyVersion("0.1.225.3")]
+[assembly: AssemblyVersion("0.1.226.1")]
 [assembly: AssemblyFileVersion("0.1.0.0")]
 
 [assembly: ComVisible(false)]
