@@ -660,7 +660,7 @@ namespace Funq.Tests
 
 			var child = container.CreateChildContainer();
 			child.Register(c => new Presenter(c.Resolve<View>()));
-
+			
 			try
 			{
 				var view = child.Resolve<View>();

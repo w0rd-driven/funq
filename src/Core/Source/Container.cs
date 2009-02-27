@@ -18,13 +18,13 @@ namespace Funq
 		/// <include file='Container.xdoc' path='docs/doc[@for="Container.ctor"]/*'/>
 		public Container()
 		{
-			services[new ServiceKey(typeof(Container), typeof(Func<Container, Container>), null)] = 
+			services[new ServiceKey(typeof(Container), typeof(Func<Container, Container>), null)] =
 				new ServiceEntry<Container>((Func<Container, Container>)(c => c))
 				{
-					Container = this, 
-					Instance = this, 
-					Owner = Owner.External, 
-					Reuse = ReuseScope.Container, 
+					Container = this,
+					Instance = this,
+					Owner = Owner.External,
+					Reuse = ReuseScope.Container,
 				};
 		}
 
@@ -63,9 +63,14 @@ namespace Funq
 			if (typeof(TService) == typeof(Container))
 				throw new ArgumentException(Properties.Resources.Registration_CantRegisterContainer);
 
-			var entry = new ServiceEntry<TService>(factory) { Container = this, Reuse = DefaultReuse, Owner = DefaultOwner };
+			var entry = new ServiceEntry<TService>(factory)
+			{
+				Container = this,
+				Reuse = DefaultReuse,
+				Owner = DefaultOwner
+			};
 			var key = new ServiceKey(typeof(TService), typeof(TFunc), name);
-			
+
 			services[key] = entry;
 
 			return entry;
@@ -139,7 +144,7 @@ namespace Funq
 		{
 			ServiceEntry entry = null;
 			// Go up the hierarchy always for registrations.
-			
+
 			Container container = this;
 			while (!container.services.TryGetValue(key, out entry) && container.parentContainer != null)
 			{
