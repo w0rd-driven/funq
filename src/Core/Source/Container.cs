@@ -65,7 +65,7 @@ namespace Funq
 
 			var entry = new ServiceEntry<TService>(factory) { Container = this, Reuse = DefaultReuse, Owner = DefaultOwner };
 			var key = new ServiceKey(typeof(TService), typeof(TFunc), name);
-
+			
 			services[key] = entry;
 
 			return entry;
@@ -78,53 +78,35 @@ namespace Funq
 
 			if (entry != null)
 			{
-				TService instance = default(TService);
 				switch (entry.Reuse)
 				{
-					case ReuseScope.Hierarchy:
-						if (entry.Instance == null)
-						{
-							entry.Instance = instance = entry.Container.CreateInstance<TService, TFunc>(entry, invoker);
-							InitializeInstance<TService>(entry, instance);
-							return instance;
-						}
-
-						return (TService)entry.Instance;
-
 					case ReuseScope.Container:
-						ServiceEntry<TService> containerEntry;
 						if (entry.Container != this)
 						{
 							// If the container for the registration entry is 
 							// not the same as the current container, clone 
 							// the entry and register locally on this container
 							// for further resolutions.
-							containerEntry = entry.CloneFor(this);
-							services[key] = containerEntry;
+							entry = entry.CloneFor(this);
+							services[key] = entry;
 						}
-						else
-						{
-							containerEntry = entry;
-						}
+						break;
 
-						if (containerEntry.Instance == null)
-						{
-							containerEntry.Instance = instance = CreateInstance<TService, TFunc>(containerEntry, invoker);
-							InitializeInstance<TService>(containerEntry, instance);
-						}
-
-						return (TService)containerEntry.Instance;
-
+					case ReuseScope.Hierarchy:
 					case ReuseScope.None:
-						// Always creates a new instance.
-						// We don't keep the instance with a strong reference on the 
-						// ServiceEntry as it's not container or singleton-managed.
-						return InitializeInstance(entry, 
-							CreateInstance<TService, TFunc>(entry, invoker));
+						// Nothing special to do in this case
+						break;
 
 					default:
 						throw new ResolutionException(Properties.Resources.ResolutionException_UnknownScope);
 				}
+
+				if (entry.Instance == null)
+				{
+					return CreateAndInitializeInstance(entry, invoker);
+				}
+
+				return entry.Instance;
 			}
 
 			if (throwIfMissing)
@@ -133,22 +115,22 @@ namespace Funq
 				return default(TService);
 		}
 
-		private TService CreateInstance<TService, TFunc>(ServiceEntry entry, Func<TFunc, TService> invoker)
+		private TService CreateAndInitializeInstance<TService, TFunc>(ServiceEntry<TService> entry, Func<TFunc, TService> invoker)
 		{
 			var factory = (TFunc)entry.Factory;
 			var instance = invoker(factory);
+
+			// Save instance if Hierarchy or Container Reuse 
+			if (entry.Reuse != ReuseScope.None)
+				entry.Instance = instance;
+
 			// Track for disposal if necessary
 			if (entry.Owner == Owner.Container && instance is IDisposable)
-				disposables.Push(new WeakReference(instance));
+				entry.Container.disposables.Push(new WeakReference(instance));
 
-			return instance;
-		}
-
-		private TService InitializeInstance<TService>(ServiceEntry<TService> entry, TService instance)
-		{
 			// Call initializer if necessary
 			if (entry.Initializer != null)
-				entry.Initializer(this, instance);
+				entry.Initializer(entry.Container, instance);
 
 			return instance;
 		}
@@ -157,10 +139,14 @@ namespace Funq
 		{
 			ServiceEntry entry = null;
 			// Go up the hierarchy always for registrations.
-			if (!services.TryGetValue(key, out entry) && parentContainer != null)
-				return parentContainer.GetEntry<TService>(key);
-			else
-				return (ServiceEntry<TService>)entry;
+			
+			Container container = this;
+			while (!container.services.TryGetValue(key, out entry) && container.parentContainer != null)
+			{
+				container = container.parentContainer;
+			}
+
+			return (ServiceEntry<TService>)entry;
 		}
 
 		private static TService ThrowMissing<TService>(string name)
