@@ -34,10 +34,12 @@ namespace Funq
 		public static bool Equals(ServiceKey obj1, ServiceKey obj2)
 		{
 			if (Object.Equals(null, obj1) ||
-				Object.Equals(null, obj2))
+				Object.Equals(null, obj2) || 
+				obj1.hash != obj2.hash)
 				return false;
 
-			return obj1.hash == obj2.hash;
+			return obj1.Name == obj2.Name &&
+				obj1.FactoryType == obj2.FactoryType;
 		}
 
 		public override int GetHashCode()
