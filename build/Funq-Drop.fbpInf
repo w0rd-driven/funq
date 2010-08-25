@@ -1,0 +1,16 @@
+<project ServerProjectName="">
+  <watches><watch>WorkingDirectory</watch>
+    </watches>
+  <collapsedNodes>{2BE4D10A-8303-4BBD-9395-6EB35DCDC9CD},{41EB0912-FDEE-4A95-950C-E8D4B5AB9C54},{6C459D40-BE08-45E9-A33D-A642247B5923},{B780F2DF-507A-477B-A1AA-DFCA9C66C39A},{C3C9391E-FAB9-4698-A55A-8B2A7B898FEB},{E7BF55F6-3E25-4E53-A67F-4F5D9B704CC1},{F148ACCF-9C8F-4E21-9773-CEA1482B56F6}</collapsedNodes>
+  <breakpoints></breakpoints>
+  <actions/>
+  <propertysets/>
+  <variables/>
+  <properties><Author></Author>
+    <Notes><![CDATA[]]>
+      </Notes>
+    <LastBuildRun>00:08:34</LastBuildRun>
+    <LastBuildStart>2/25/2009 9:37:37 PM</LastBuildStart>
+    <LastBuildState>False</LastBuildState>
+    </properties>
+  </project>
