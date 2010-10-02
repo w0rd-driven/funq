@@ -11,6 +11,12 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 -->
 
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Indicate we are the Silverlight platform and set the registry base. This needs to be done
+             prior to importing the common targets -->
+        <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+        <FrameworkRegistryBase>Software\Microsoft\Microsoft SDKs\$(TargetFrameworkIdentifier)</FrameworkRegistryBase>
+    </PropertyGroup>
     <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
     <Import Project="Microsoft.Silverlight.Common.targets" />
 </Project>
