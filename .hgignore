@@ -1,0 +1,9 @@
+glob:src/Binaries/
+glob:bin/
+glob:obj/
+glob:drop/
+glob:*.suo
+glob:*.user
+glob:src/Funq.snk
+glob:build/Help/
+glob:build/Sandcastle/Data/
