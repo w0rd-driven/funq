@@ -9,3 +9,5 @@ glob:build/Help/
 glob:build/Sandcastle/Data/
 glob:*.t4properties
 glob:build/Funq/
+glob:Bin/
+glob:Drop/
