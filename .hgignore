@@ -11,3 +11,4 @@ glob:*.t4properties
 glob:build/Funq/
 glob:Bin/
 glob:Drop/
+glob:Funq.Composition.xml
