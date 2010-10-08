@@ -13,3 +13,6 @@ glob:Bin/
 glob:Drop/
 glob:Funq.Composition.xml
 glob:Funq.xml
+glob:Funq.Build.xml
+glob:Funq.VisualStudio.xml
+glob:Funq.Old/
