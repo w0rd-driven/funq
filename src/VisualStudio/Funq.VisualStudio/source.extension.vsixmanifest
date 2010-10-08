@@ -20,5 +20,8 @@
 																			MaxVersion="4.0" />
 	</Identifier>
 	<References />
-	<Content />
+	<Content>
+		<ItemTemplate>Templates\Items</ItemTemplate>
+		<ProjectTemplate>Templates\Projects</ProjectTemplate>
+	</Content>
 </Vsix>
