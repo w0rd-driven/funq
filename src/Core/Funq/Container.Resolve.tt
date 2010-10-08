@@ -4,7 +4,6 @@
 <#@ Import Namespace="System.Linq" #>
 <#@ Include File="Header.tt" #>
 
-using System;
 using System.Diagnostics;
 
 namespace Funq
