@@ -6,7 +6,6 @@ glob:*.suo
 glob:*.user
 glob:src/Funq.snk
 glob:build/Help/
-glob:build/Sandcastle/Data/
 glob:*.t4properties
 glob:build/Funq/
 glob:Bin/
@@ -16,3 +15,7 @@ glob:Funq.xml
 glob:Funq.Build.xml
 glob:Funq.VisualStudio.xml
 glob:Funq.Old/
+glob:build/Binaries/
+glob:build/Drop
+glob:build/Tools/Sandcastle/Data
+glob:apikey.txt
